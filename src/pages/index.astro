@@ -13,6 +13,11 @@ import Forside3 from "../components/Forside3.astro";
     <div class="slide"><Forside2 /></div>
     <div class="slide"><Forside3 /></div>
     <button class="next" onclick="nextSlide()">&#10095;</button>
+    <div class="circleContainer">
+      <div class="circle circle0 activeCircle"></div>
+      <div class="circle circle1"></div>
+      <div class="circle circle2"></div>
+    </div>
   </div>
   <Footer />
 </MainLayout>
@@ -23,6 +28,13 @@ import Forside3 from "../components/Forside3.astro";
     const slides = document.querySelectorAll(".slide");
     let currentSlide = 0;
 
+    //
+    setInterval(sliderTimer, 6000);
+
+    function sliderTimer() {
+      nextSlide();
+    }
+
     function showSlide(index) {
       slides.forEach((slide, i) => {
         slide.classList.toggle("active", i === index);
@@ -32,6 +44,15 @@ import Forside3 from "../components/Forside3.astro";
     function nextSlide() {
       currentSlide = (currentSlide + 1) % slides.length;
       showSlide(currentSlide);
+
+      let all = document.querySelectorAll(".circle");
+
+      all.forEach((single) => {
+        single.classList.remove("activeCircle");
+      });
+
+      let circlenumber = document.querySelector(`.circle${currentSlide}`);
+      circlenumber.classList.add("activeCircle");
     }
 
     function prevSlide() {
@@ -49,6 +70,22 @@ import Forside3 from "../components/Forside3.astro";
 </script>
 
 <style>
+  .circleContainer {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -60px;
+    gap: 1.5rem;
+  }
+  .circle {
+    width: 10px;
+    height: 0px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .activeCircle {
+    background-color: black;
+  }
   /* carousel */
   .slidehow {
     width: 80%;
